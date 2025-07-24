@@ -64,8 +64,8 @@ public class Main extends ApplicationAdapter {
         float worldwidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
 
-        spriteBatch.draw(gordyTexture,0,0,1,1);// draw gordy
         spriteBatch.draw(backgroundTexture,0,0,worldwidth,worldHeight); //draw background
+        spriteBatch.draw(gordyTexture,0,0,1,1);// draw gordy
 
         spriteBatch.end();
     }
