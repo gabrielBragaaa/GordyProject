@@ -2,9 +2,11 @@ package io.github.hh_project;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -22,6 +24,7 @@ public class Main extends ApplicationAdapter {
     private Texture image;
     SpriteBatch spriteBatch;
     FitViewport viewport;
+    Sprite gordySprite;
 
     @Override//Este metodod inicia imediatamente qundo o jogo inicia
     public void create() {
@@ -34,6 +37,9 @@ public class Main extends ApplicationAdapter {
 
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(8, 5);
+
+        gordySprite = new Sprite(gordyTexture);
+        gordySprite.setSize(1, 1);
     }
 
     @Override
@@ -48,13 +54,22 @@ public class Main extends ApplicationAdapter {
         draw();
     }
 
+    //Entrada de dados
     private void input() {
+        float speed = .4f;//Termina a velocidade
+        float delta = Gdx.graphics.getDeltaTime();// Retrive the current Delta
 
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            gordySprite.translateX(speed * delta); //Move the Gordy right
+        }else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            gordySprite.translateX(-speed * delta);
+        }
     }
 
     private void logic() {
 
     }
+
     private void draw() {
         ScreenUtils.clear(Color.BLACK);//Limpa a tela
         viewport.apply();
@@ -64,9 +79,8 @@ public class Main extends ApplicationAdapter {
         float worldwidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
 
-        spriteBatch.draw(backgroundTexture,0,0,worldwidth,worldHeight); //draw background
-        spriteBatch.draw(gordyTexture,0,0,1,1);// draw gordy
-
+        spriteBatch.draw(backgroundTexture, 0, 0, worldwidth, worldHeight); //draw background / e faz com que a imagem fique toda preenchida
+        gordySprite.draw(spriteBatch);
         spriteBatch.end();
     }
 
