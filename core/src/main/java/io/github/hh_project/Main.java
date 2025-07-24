@@ -61,7 +61,11 @@ public class Main extends ApplicationAdapter {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
 
+        float worldwidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
         spriteBatch.draw(gordyTexture,0,0,1,1);// draw gordy
+        spriteBatch.draw(backgroundTexture,0,0,worldwidth,worldHeight); //draw background
 
         spriteBatch.end();
     }
