@@ -8,8 +8,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.Vector;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
@@ -19,12 +22,16 @@ public class Main extends ApplicationAdapter {
     Texture backgroundTexture;
     Texture gordyTexture;
     Texture dropTexture;
+
     Music music;
+
     private SpriteBatch batch;
     private Texture image;
+
     SpriteBatch spriteBatch;
     FitViewport viewport;
     Sprite gordySprite;
+    Vector2 touchPos;
 
     @Override//Este metodod inicia imediatamente qundo o jogo inicia
     public void create() {
@@ -40,6 +47,8 @@ public class Main extends ApplicationAdapter {
 
         gordySprite = new Sprite(gordyTexture);
         gordySprite.setSize(1, 1);
+
+        touchPos = new Vector2();
     }
 
     @Override
@@ -56,13 +65,19 @@ public class Main extends ApplicationAdapter {
 
     //Entrada de dados
     private void input() {
-        float speed = .4f;//Termina a velocidade
+        float speed = .90f;//Termina a velocidade
         float delta = Gdx.graphics.getDeltaTime();// Retrive the current Delta
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             gordySprite.translateX(speed * delta); //Move the Gordy right
-        }else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             gordySprite.translateX(-speed * delta);
+        }
+
+        if (Gdx.input.isTouched()) { //If the user has clicked or tapped the screen
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY());
+            viewport.unproject(touchPos);
+            gordySprite.setCenterX(touchPos.x);
         }
     }
 
