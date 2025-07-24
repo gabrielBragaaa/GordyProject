@@ -2,6 +2,7 @@ package io.github.hh_project;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,20 +10,27 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
+
+    Texture backgroundTexture;
+    Texture hamburTexture;
+    Texture dropTexture;
+    Music music;
     private SpriteBatch batch;
     private Texture image;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        image = new Texture("echo_systemas_logo_resized.png");
+        batch = new SpriteBatch();//Important
+        backgroundTexture = new Texture("Hamburgueria.png");
+        hamburTexture = new Texture("Gordy.png");
+        dropTexture = new Texture("Hambuguer.png");
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         batch.begin();
-        batch.draw(image, 150, 200);
+        batch.draw(backgroundTexture, 10, 10);
         batch.end();
     }
 
