@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -20,7 +21,6 @@ import java.util.Vector;
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Main extends ApplicationAdapter {
-
     Array<Sprite> dropSprites;
 
     Texture backgroundTexture;
@@ -28,6 +28,7 @@ public class Main extends ApplicationAdapter {
     Texture dropTexture;
 
     Music music;
+    Music eatMusic;
 
     private SpriteBatch batch;
     private Texture image;
@@ -39,6 +40,9 @@ public class Main extends ApplicationAdapter {
 
     float dropTimer;
 
+    Rectangle gordyRectangle;
+    Rectangle dropRectangle;
+
     @Override//Este metodod inicia imediatamente qundo o jogo inicia
     public void create() {
         batch = new SpriteBatch();//Important
@@ -47,6 +51,7 @@ public class Main extends ApplicationAdapter {
         dropTexture = new Texture("Hambuguer.png");
 
         music = Gdx.audio.newMusic(Gdx.files.internal("Ziv Moran - Patisserie.mp3"));
+        eatMusic = Gdx.audio.newMusic(Gdx.files.internal("eat.mp3"));
 
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(8, 5);
@@ -58,6 +63,13 @@ public class Main extends ApplicationAdapter {
 
         dropSprites = new Array<>();
 
+        gordyRectangle = new Rectangle();
+        dropRectangle = new Rectangle();
+
+        //Trilha sonora
+        music.setLooping(true);
+        music.setVolume(.5f);
+        music.play();
 
     }
 
@@ -104,20 +116,28 @@ public class Main extends ApplicationAdapter {
 
         float delta = Gdx.graphics.getDeltaTime();
 
-        for (int i = dropSprites.size - 1; i >= 0; i--){
+        gordyRectangle.set(gordySprite.getX(), gordySprite.getY(), gordyWidth, gordyHeight);
+
+        // Loop through the sprites backwards to prevent out of bounds errors
+        for (int i = dropSprites.size - 1; i >= 0; i--) {
             Sprite dropSprite = dropSprites.get(i);
             float dropWidth = dropSprite.getWidth();
             float dropHeight = dropSprite.getHeight();
 
             dropSprite.translateY(-2f * delta);
 
-            if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
+            dropRectangle.set(dropSprite.getX(), dropSprite.getY(), dropWidth, dropHeight);
 
+            if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
+            else if (gordyRectangle.overlaps((dropRectangle))) { // Check if gordy overlaps the drop
+                dropSprites.removeIndex(i); //Remove the drop
+                eatMusic.play();//Som de comida
+            }
         }
 
         dropTimer += delta;
-        if(dropTimer > 1f){
-            dropTimer = 0;
+        if (dropTimer > 1f) {
+            dropTimer = -1;//Tempo entre um hamburguer e outro
             createDroplet();
         }
 
