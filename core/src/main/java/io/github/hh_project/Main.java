@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -19,6 +20,8 @@ import java.util.Vector;
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Main extends ApplicationAdapter {
+
+    Array<Sprite> dropSprites;
 
     Texture backgroundTexture;
     Texture gordyTexture;
@@ -33,6 +36,8 @@ public class Main extends ApplicationAdapter {
     FitViewport viewport;
     Sprite gordySprite;
     Vector2 touchPos;
+
+    float dropTimer;
 
     @Override//Este metodod inicia imediatamente qundo o jogo inicia
     public void create() {
@@ -50,6 +55,10 @@ public class Main extends ApplicationAdapter {
         gordySprite.setSize(1, 1);
 
         touchPos = new Vector2();
+
+        dropSprites = new Array<>();
+
+
     }
 
     @Override
@@ -85,13 +94,33 @@ public class Main extends ApplicationAdapter {
     //Logica do jogo
     private void logic() {
 
-    float worldWidth = viewport.getWorldWidth();
-    float worlHeight = viewport.getWorldHeight();
+        float worldWidth = viewport.getWorldWidth();
+        float worlHeight = viewport.getWorldHeight();
 
-    float gordyWidth = gordySprite.getWidth();
-    float gordyHeight = gordySprite.getHeight();
+        float gordyWidth = gordySprite.getWidth();
+        float gordyHeight = gordySprite.getHeight();
 
-    gordySprite.setX(MathUtils.clamp(gordySprite.getX(),0,worldWidth - gordyWidth));
+        gordySprite.setX(MathUtils.clamp(gordySprite.getX(), 0, worldWidth - gordyWidth));
+
+        float delta = Gdx.graphics.getDeltaTime();
+
+        for (int i = dropSprites.size - 1; i >= 0; i--){
+            Sprite dropSprite = dropSprites.get(i);
+            float dropWidth = dropSprite.getWidth();
+            float dropHeight = dropSprite.getHeight();
+
+            dropSprite.translateY(-2f * delta);
+
+            if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
+
+        }
+
+        dropTimer += delta;
+        if(dropTimer > 1f){
+            dropTimer = 0;
+            createDroplet();
+        }
+
     }
 
     private void draw() {
@@ -105,7 +134,25 @@ public class Main extends ApplicationAdapter {
 
         spriteBatch.draw(backgroundTexture, 0, 0, worldwidth, worldHeight); //draw background / e faz com que a imagem fique toda preenchida
         gordySprite.draw(spriteBatch);
+
+        for (Sprite dropSprite : dropSprites) {
+            dropSprite.draw(spriteBatch);
+        }
+
         spriteBatch.end();
+    }
+
+    private void createDroplet() {
+        float dropWidth = 1;
+        float dropHeight = 1;
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
+        Sprite dropSprite = new Sprite(dropTexture);
+        dropSprite.setSize(dropWidth, dropHeight);
+        dropSprite.setX(MathUtils.random(0f, worldWidth - dropHeight));
+        dropSprite.setY(worldHeight);
+        dropSprites.add(dropSprite);
     }
 
     @Override
