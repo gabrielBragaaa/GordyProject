@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -81,8 +82,16 @@ public class Main extends ApplicationAdapter {
         }
     }
 
+    //Logica do jogo
     private void logic() {
 
+    float worldWidth = viewport.getWorldWidth();
+    float worlHeight = viewport.getWorldHeight();
+
+    float gordyWidth = gordySprite.getWidth();
+    float gordyHeight = gordySprite.getHeight();
+
+    gordySprite.setX(MathUtils.clamp(gordySprite.getX(),0,worldWidth - gordyWidth));
     }
 
     private void draw() {
