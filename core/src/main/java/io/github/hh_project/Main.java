@@ -27,7 +27,7 @@ public class Main extends Game {
     Music music;
     Music eatMusic;
 
-    private SpriteBatch batch;
+    SpriteBatch batch;
     private Texture image;
 
     SpriteBatch spriteBatch;
@@ -42,8 +42,8 @@ public class Main extends Game {
 
     @Override//Este metodod inicia imediatamente qundo o jogo inicia
     public void create() {
-        setScreen(new Menu(this));
         batch = new SpriteBatch();//Important
+        setScreen(new Menu(this));
         backgroundTexture = new Texture("Hamburgueria.png");
         gordyTexture = new Texture("Gordy.png");
         dropTexture = new Texture("Hambuguer.png");
