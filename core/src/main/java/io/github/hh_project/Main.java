@@ -1,6 +1,7 @@
 package io.github.hh_project;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
@@ -17,12 +18,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Vector;
 
-/**
- * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
- */
-public class Main extends ApplicationAdapter {
+public class Main extends Game {
     Array<Sprite> dropSprites;
-
     Texture backgroundTexture;
     Texture gordyTexture;
     Texture dropTexture;
@@ -45,6 +42,7 @@ public class Main extends ApplicationAdapter {
 
     @Override//Este metodod inicia imediatamente qundo o jogo inicia
     public void create() {
+        setScreen(new Menu(this));
         batch = new SpriteBatch();//Important
         backgroundTexture = new Texture("Hamburgueria.png");
         gordyTexture = new Texture("Gordy.png");
