@@ -11,4 +11,8 @@ public class GameMain extends Game {
         batch = new SpriteBatch();
         setScreen(new Menu(this));
     }
+    @Override
+    public void dispose(){
+        batch.dispose();
+    }
 }
