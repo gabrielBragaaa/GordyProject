@@ -1,6 +1,5 @@
 package io.github.hh_project;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,9 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import java.util.Vector;
-
-public class Main extends Game {
+public class TelaJogo extends Game {
     Array<Sprite> dropSprites;
     Texture backgroundTexture;
     Texture gordyTexture;

@@ -11,7 +11,7 @@
   <!-- "Inherits" lines are how GWT knows where to look for code and configuration in other projects or libraries. -->
   <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
   <inherits name="com.github.czyzby.noise4j.Noise4J" />
-  <inherits name="io.github.hh_project.Main" />
+  <inherits name="io.github.hh_project.TelaJogo" />
 
   <!-- You must change this if you rename packages later, or rename GwtLauncher. -->
   <entry-point class="io.github.hh_project.gwt.GwtLauncher" />
